@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FaSignOutAlt } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
@@ -44,7 +45,7 @@ const Navbar = () => {
                 onClick={handleLogout}
                 className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600"
               >
-                Logout
+                <FaSignOutAlt />
               </button>
             </>
           ) : (

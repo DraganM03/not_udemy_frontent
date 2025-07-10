@@ -10,12 +10,16 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import MainLayout from './layouts/MainLayout';
 import HomePage from './pages/HomePage.jsx';
 import CoursePage from './pages/CoursePage';
+import LoginPage from './pages/LoginPage.jsx';
+import RegisterPage from './pages/RegisterPage.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
       <Route index element={<HomePage />} />
       <Route path="/course/:id" element={<CoursePage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
     </Route>
   )
 );
