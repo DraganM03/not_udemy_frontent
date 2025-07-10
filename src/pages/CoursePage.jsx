@@ -8,9 +8,10 @@ import { API_BASE_URL } from '../services/api';
 const CoursePage = () => {
   const { id: courseId } = useParams();
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [course, setCourse] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [isEnrolled, setIsEnrolled] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -23,6 +24,15 @@ const CoursePage = () => {
 
         const reviewsRes = await api.get(`/api/reviews/course/${courseId}`);
         setReviews(reviewsRes.data);
+
+        // Check enrollment status if user is logged in
+        if (isAuthenticated) {
+          // NOTE: This assumes a new backend endpoint exists
+          const enrollStatusRes = await api.get(
+            `/api/enrollments/status/${courseId}`
+          );
+          setIsEnrolled(enrollStatusRes.data.isEnrolled);
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -30,7 +40,7 @@ const CoursePage = () => {
       }
     };
     fetchCourseData();
-  }, [courseId]);
+  }, [courseId, isAuthenticated]);
 
   const handleEnroll = async () => {
     if (!isAuthenticated) {
@@ -43,6 +53,7 @@ const CoursePage = () => {
       });
       if (response.status === 201) {
         alert('Successfully enrolled!');
+        setIsEnrolled(true);
       }
     } catch (err) {
       alert(`Error: ${err.response?.data?.message || err.message}`);
@@ -53,6 +64,37 @@ const CoursePage = () => {
   if (error)
     return <div className="text-center text-red-500">Error: {error}</div>;
   if (!course) return <div className="text-center">Course not found.</div>;
+
+  const ActionButton = () => {
+    if (user?.role_name === 'instructor') {
+      return (
+        <button
+          onClick={() => navigate(`/course/edit/${courseId}`)}
+          className="w-full mt-4 py-3 text-white font-bold bg-gray-600 rounded-md hover:bg-gray-700"
+        >
+          Edit Course
+        </button>
+      );
+    }
+    if (isEnrolled) {
+      return (
+        <button
+          onClick={() => navigate(`/watch/${courseId}`)}
+          className="w-full mt-4 py-3 text-white font-bold bg-green-600 rounded-md hover:bg-green-700"
+        >
+          Continue Learning
+        </button>
+      );
+    }
+    return (
+      <button
+        onClick={handleEnroll}
+        className="w-full mt-4 py-3 text-white font-bold bg-purple-600 rounded-md hover:bg-purple-700"
+      >
+        Enroll now
+      </button>
+    );
+  };
 
   return (
     <div className="container mx-auto">
@@ -129,19 +171,14 @@ const CoursePage = () => {
               src={
                 course.thumbnail
                   ? `${API_BASE_URL}/static/${course.thumbnail}`
-                  : 'https://placehold.co/600x400/e2e8f0/000000?text=no%20image'
+                  : 'https://placehold.co/600x400/e2e8f0/e2e8f0?text=.'
               }
               alt={course.title}
               className="w-full h-48 object-cover rounded-t-lg"
             />
             <div className="p-4">
               <p className="text-4xl font-bold">${course.price}</p>
-              <button
-                onClick={handleEnroll}
-                className="w-full mt-4 py-3 text-white font-bold bg-purple-600 rounded-md hover:bg-purple-700"
-              >
-                Enroll now
-              </button>
+              <ActionButton />
             </div>
           </div>
         </div>
