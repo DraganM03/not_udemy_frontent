@@ -38,7 +38,11 @@ const LoginPage = () => {
         <h2 className="text-2xl font-bold mb-6 text-center">
           Log in to your account
         </h2>
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        {error && (
+          <p className="text-red-500 text-center mb-4">
+            {'Bad Credentials, Try Again!'}
+          </p>
+        )}
         <div className="mb-4">
           <label className="block text-gray-700 mb-2" htmlFor="email">
             Email

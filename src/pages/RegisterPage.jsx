@@ -29,10 +29,8 @@ const RegisterPage = () => {
     e.preventDefault();
     setError('');
     try {
-      // Step 1: Register the user
       const registerResponse = await api.post('/api/users/register', formData);
 
-      // Step 2: If registration is successful, automatically log them in
       if (registerResponse.status === 201) {
         const loginResponse = await api.post('/api/users/login', {
           email: formData.email,
@@ -42,7 +40,6 @@ const RegisterPage = () => {
         const { user, token } = loginResponse.data;
         login(user, token); // Update the auth context
 
-        // Step 3: Redirect to the home page
         navigate('/');
       }
     } catch (err) {
@@ -59,7 +56,13 @@ const RegisterPage = () => {
         <h2 className="text-2xl font-bold mb-6 text-center">
           Create a new account
         </h2>
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        {error && (
+          <p className="text-red-500 text-center mb-4">
+            {error.includes('409')
+              ? 'User With That Email Adress Already Exists!'
+              : 'Something Went Wrong, Try Again!'}
+          </p>
+        )}
         <div className="grid grid-cols-2 gap-4 mb-4">
           <input
             name="first_name"
