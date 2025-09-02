@@ -24,7 +24,6 @@ const WatchCoursePage = () => {
         );
         setLessons(sortedLessons);
 
-        // --- IMPROVEMENT: Automatically select the first lesson that has a video ---
         const firstPlayableLesson = sortedLessons.find((l) => l.video_path);
         if (firstPlayableLesson) {
           setCurrentLesson(firstPlayableLesson);
@@ -45,16 +44,14 @@ const WatchCoursePage = () => {
   useEffect(() => {
     console.log('Attempting to play lesson:', currentLesson);
 
-    // If there's no lesson selected, do nothing.
     if (!currentLesson) return;
 
-    // If the selected lesson has no video path, show an error.
     if (!currentLesson.video_path) {
       console.error(
         "This lesson object does not have a 'video_path' property or it is empty/null.",
         currentLesson
       );
-      setVideoUrl(''); // Clear any previous video
+      setVideoUrl('');
       setError('This lesson does not have a video.');
       return;
     }
