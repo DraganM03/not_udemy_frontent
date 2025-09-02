@@ -16,12 +16,11 @@ const HomePage = () => {
   const [selectedLevel, setSelectedLevel] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Fetch initial data (all courses and categories)
+  // Fetch all courses and categoriess
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
         setLoading(true);
-        // Fetch both courses and categories in parallel
         const [coursesResponse, categoriesResponse] = await Promise.all([
           api.get('/api/courses'),
           api.get('/api/categories'),
