@@ -57,7 +57,6 @@ const EditCoursePage = () => {
     }));
 
     try {
-      // NOTE: This requires a new backend endpoint: PATCH /api/lessons/order
       await api.patch('/api/lessons/order', { lessons: orderPayload });
       alert('Lesson order saved successfully!');
       fetchCourseAndLessons(); // Refresh data from server
