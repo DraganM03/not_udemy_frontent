@@ -43,7 +43,6 @@ const WatchCoursePage = () => {
 
   // Effect to fetch the video blob when the currentLesson changes
   useEffect(() => {
-    // --- DEBUGGING: Log the lesson object when it's clicked ---
     console.log('Attempting to play lesson:', currentLesson);
 
     // If there's no lesson selected, do nothing.
@@ -64,7 +63,7 @@ const WatchCoursePage = () => {
       setIsVideoLoading(true);
       setError('');
 
-      // Revoke the previous object URL to prevent memory leaks
+      // Memory leak fix
       if (videoUrlRef.current) {
         URL.revokeObjectURL(videoUrlRef.current);
       }
@@ -97,7 +96,7 @@ const WatchCoursePage = () => {
         URL.revokeObjectURL(videoUrlRef.current);
       }
     };
-  }, [currentLesson]); // This effect now correctly depends only on `currentLesson`
+  }, [currentLesson]);
 
   if (loading)
     return (

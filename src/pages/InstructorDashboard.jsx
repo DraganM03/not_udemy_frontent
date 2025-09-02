@@ -13,7 +13,6 @@ const InstructorDashboard = () => {
   const fetchInstructorCourses = useCallback(async () => {
     setLoading(true);
     try {
-      // NOTE: This assumes a new backend endpoint exists at GET /api/courses/instructor
       const response = await api.get('/api/courses/instructor');
       setCourses(response.data);
       setError(null);
