@@ -3,6 +3,7 @@ import api from '../services/api';
 import CourseCard from '../components/CourseCard';
 import Spinner from '../components/Spinner';
 import { FaSearch } from 'react-icons/fa';
+import { useAuth } from '../context/AuthContext';
 
 const HomePage = () => {
   const [courses, setCourses] = useState([]);
@@ -15,6 +16,8 @@ const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedLevel, setSelectedLevel] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+
+  const { user } = useAuth();
 
   // Fetch all courses and categoriess
   useEffect(() => {
@@ -61,6 +64,9 @@ const HomePage = () => {
 
   return (
     <div className="container mx-auto">
+      <h1 class="mb-4 text-3xl font-bold text-gray-800 md:text-4xl">
+        Welcome Back, {user.first_name}
+      </h1>
       {/* Filter Section */}
       <div className="bg-white p-4 rounded-lg shadow-md mb-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
