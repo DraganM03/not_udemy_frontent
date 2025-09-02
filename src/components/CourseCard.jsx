@@ -29,7 +29,7 @@ const CourseCard = ({ course }) => {
           </span>
           <FaStar className="text-yellow-500" />
         </div>
-        <p className="text-lg font-bold mt-2">${course.price}</p>
+        <p className="text-lg font-bold mt-2">{course.price}€</p>
       </div>
     </Link>
   );

@@ -27,7 +27,6 @@ const CoursePage = () => {
 
         // Check enrollment status if user is logged in
         if (isAuthenticated) {
-          // NOTE: This assumes a new backend endpoint exists
           const enrollStatusRes = await api.get(
             `/api/enrollments/status/${courseId}`
           );
