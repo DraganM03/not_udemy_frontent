@@ -70,6 +70,9 @@ const CoursePage = () => {
         <button
           onClick={() => navigate(`/course/edit/${courseId}`)}
           className="w-full mt-4 py-3 text-white font-bold bg-gray-600 rounded-md hover:bg-gray-700"
+          disabled={
+            course.instructor_name != user.first_name + ' ' + user.last_name
+          }
         >
           Edit Course
         </button>
